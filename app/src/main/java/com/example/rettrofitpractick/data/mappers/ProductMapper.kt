@@ -3,8 +3,9 @@ package com.example.rettrofitpractick.data.mappers
 
 import com.example.rettrofitpractick.data.database.ProductDbModel
 import com.example.rettrofitpractick.data.network.model.ProductDtoModel
+import com.example.rettrofitpractick.data.network.model.UserDtoModel
 import com.example.rettrofitpractick.domain.model.ProductModel
-import com.google.gson.Gson
+import com.example.rettrofitpractick.domain.model.User
 import java.sql.Timestamp
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -31,7 +32,7 @@ class ProductMapper {
         return list.joinToString(",")
     }
 
-    private fun stingToList(stringList:String): List<String>{
+    private fun stingToList(stringList: String): List<String> {
         return stringList.split(",")
     }
 
@@ -47,7 +48,7 @@ class ProductMapper {
         brand = dbModel.brand,
         category = dbModel.category,
         thumbnail = dbModel.thumbnail,
-        images = stingToList( dbModel.images)
+        images = stingToList(dbModel.images)
     )
 
     fun mapDbModelListToEntityList(dbModelList: List<ProductDbModel>) =
@@ -67,5 +68,16 @@ class ProductMapper {
         return sdf.format(date)
     }
 
+    fun mapDtoUserToDbModelUser(dto: UserDtoModel) = User(
+        id = dto.id,
+        username = dto.username,
+        email = dto.email,
+        firstName = dto.firstName,
+        lastName = dto.lastName,
+        gender = dto.gender,
+        image = dto.image,
+        token = dto.token
+
+    )
 
 }

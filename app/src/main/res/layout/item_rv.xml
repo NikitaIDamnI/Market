@@ -25,10 +25,10 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="5dp"
+            android:layout_marginTop="24dp"
             android:layout_marginEnd="5dp"
             android:gravity="center"
             android:orientation="vertical"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/imageView3">
@@ -45,6 +45,18 @@
                 android:layout_height="wrap_content"
                 tools:text="ljklasd;l,;lad,;m" />
         </LinearLayout>
+
+        <CheckBox
+            android:id="@+id/checkBox"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:button="@drawable/checkbox_selector"
+            android:theme="@style/MyCheckBox"
+            android:checked="false"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="6dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

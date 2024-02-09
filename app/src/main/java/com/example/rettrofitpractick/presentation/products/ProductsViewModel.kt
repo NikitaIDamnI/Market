@@ -1,4 +1,4 @@
-package com.example.rettrofitpractick.presentation.viewModel
+package com.example.rettrofitpractick.presentation.products
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
@@ -9,7 +9,7 @@ import com.example.rettrofitpractick.domain.useCase.GetProductListUseCase
 import com.example.rettrofitpractick.domain.useCase.LoadProductListUseCase
 import kotlinx.coroutines.launch
 
-class MainViewModel(
+class ProductsViewModel(
     application: Application
 ) : AndroidViewModel(application) {
 

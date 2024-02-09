@@ -21,5 +21,11 @@ interface ProductDao {
     @Query("SELECT COUNT(*) FROM full_product_list ")
     suspend fun getProductCount(): Int
 
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun authUser(user: UserDbModel)
+
+    @Query("SELECT * FROM full_product_list WHERE id == :userName LIMIT 1")
+    fun getGetUser(userName: String ): LiveData<ProductDbModel>
+
 
 }
