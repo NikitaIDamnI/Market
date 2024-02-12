@@ -2,6 +2,8 @@ package com.example.rettrofitpractick.data.repository
 
 import android.app.Application
 import android.util.Log
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.map
 import com.example.rettrofitpractick.data.database.AppDatabase
 import com.example.rettrofitpractick.data.mappers.UserMapper
 import com.example.rettrofitpractick.data.network.ApiFactory
@@ -13,7 +15,7 @@ import java.io.IOException
 
 class LoginRepositoryImpl(
     private val application: Application
-): LoginRepository {
+) : LoginRepository {
 
     private val apiService = ApiFactory.apiService
     private val mapper = UserMapper()
@@ -21,13 +23,13 @@ class LoginRepositoryImpl(
 
 
     override suspend fun authLogin(username: String, password: String): ResultAuth<User> {
-        val userFromDatabase = userDao.getGetUser(username)
+        val userFromDatabase = userDao.getUserByName(username)
         Log.d("LoginRepositoryImpl", "userFromDatabase| $userFromDatabase")
         if (userFromDatabase != null) {
             return ResultAuth.Success(mapper.mapDbUserToUser(userFromDatabase))
         } else {
             try {
-                userDao.getGetUser(username)
+                userDao.getUserByName(username)
                 val userDto = apiService.auth(
                     AuthRequestDtoModel(
                         username,
@@ -45,11 +47,12 @@ class LoginRepositoryImpl(
         }
     }
 
-    override suspend fun addUser(user: User) {
+
+    override suspend fun getUserByName(username: String): User {
         TODO("Not yet implemented")
     }
 
-    override suspend fun getUser(username: String): User {
-        TODO("Not yet implemented")
+    override fun getUserByToken(token: String): LiveData<User> {
+        return userDao.getUserByToken(token).map { mapper.mapDbUserToUser(it) }
     }
 }
