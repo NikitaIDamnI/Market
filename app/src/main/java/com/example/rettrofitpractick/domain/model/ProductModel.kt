@@ -11,5 +11,12 @@ data class ProductModel(
     val brand: String,
     val category: String,
     val thumbnail: String,
-    val images: List<String>
-)
+    val images: List<String>,
+    val favorite: Boolean = NOT_DETERMINED
+) {
+    companion object {
+
+        const val NOT_DETERMINED = false
+    }
+}
+

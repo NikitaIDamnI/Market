@@ -1,22 +1,24 @@
 package com.example.rettrofitpractick.presentation.products
 
 import android.app.Application
+import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.rettrofitpractick.data.repository.LoginRepositoryImpl
 import com.example.rettrofitpractick.data.repository.ProductRepositoryImpl
 import com.example.rettrofitpractick.domain.model.ProductModel
-import com.example.rettrofitpractick.domain.useCase.GetProductInfoUseCase
-import com.example.rettrofitpractick.domain.useCase.GetProductListUseCase
-import com.example.rettrofitpractick.domain.useCase.GetUserByTokenUseCase
-import com.example.rettrofitpractick.domain.useCase.LoadProductListUseCase
-import com.example.rettrofitpractick.domain.useCase.SearchProductsByTitleUseCase
+import com.example.rettrofitpractick.domain.model.User
+import com.example.rettrofitpractick.domain.useCase.LoginUseCase.GetUserByTokenUseCase
+import com.example.rettrofitpractick.domain.useCase.ProductUseCase.GetProductInfoUseCase
+import com.example.rettrofitpractick.domain.useCase.ProductUseCase.GetProductListUseCase
+import com.example.rettrofitpractick.domain.useCase.ProductUseCase.LoadProductListUseCase
+import com.example.rettrofitpractick.domain.useCase.ProductUseCase.SearchProductsByTitleUseCase
 import kotlinx.coroutines.launch
 
 class ProductsViewModel(
     application: Application,
-    token:String
+    val token: String
 ) : AndroidViewModel(application) {
 
     private val repository = ProductRepositoryImpl(application)
@@ -50,11 +52,6 @@ class ProductsViewModel(
             searchList.value = search(query)
         }
     }
-
-
-
-
-
 
 
 }

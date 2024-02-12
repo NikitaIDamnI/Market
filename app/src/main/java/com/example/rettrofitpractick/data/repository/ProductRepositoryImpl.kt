@@ -11,7 +11,7 @@ import com.example.rettrofitpractick.domain.model.ProductModel
 import com.example.rettrofitpractick.domain.repository.ProductRepository
 
 class ProductRepositoryImpl(
-    val application: Application
+   private val application: Application
 ) : ProductRepository {
 
     private val productDao = AppDatabase.getInstance(application).productDao()
@@ -24,6 +24,28 @@ class ProductRepositoryImpl(
         return productDao.getProductList().map { mapper.mapDbModelListToEntityList(it) }
     }
 
+    /*
+    override fun getProductListByFavorite(userId:Int): LiveData<List<ProductByFavorite>> {
+        Log.d("ProductRepositoryImpl", "getProductList()")
+
+        val favoriteList = productDao.getProductByUserFavorite(userId).map {entities->
+            entities.map {
+                val product = it.key
+                val favorite = it.value
+                ProductByFavorite(
+                    id = product.id,
+                    title =  product.title,
+                    price = product.price,
+                    images = mapper.stingToList(product.images),
+                    favorite = favorite.isFavorite
+                )
+            }
+
+        }
+        return favoriteList
+    }
+
+     */
     override fun getProductInfo(id: Int): LiveData<ProductModel> {
         Log.d("ProductRepositoryImpl", "getProductInfo() ")
 
@@ -36,16 +58,10 @@ class ProductRepositoryImpl(
         if (productCount == 0) {
             try {
                 val listFromNetwork = apiService.getProducts()
-                Log.d(
-                    "ProductRepositoryImpl",
-                    "listFromNetwork | ${listFromNetwork.productModels.toString()}"
-                )
+
                 val listDb =
                     listFromNetwork.productModels?.let { mapper.mapDtoListToDbList(it) }
-                Log.d(
-                    "ProductRepositoryImpl",
-                    "listDb | ${listDb.toString()}"
-                )
+
                 productDao.insertProductList(listDb!!)
             } catch (e: Exception) {
                 Log.d("ProductRepositoryImpl", "loadData | e: Exception ")

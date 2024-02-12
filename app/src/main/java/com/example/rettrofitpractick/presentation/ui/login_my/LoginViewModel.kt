@@ -7,7 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.rettrofitpractick.data.repository.LoginRepositoryImpl
 import com.example.rettrofitpractick.domain.model.ResultAuth
 import com.example.rettrofitpractick.domain.model.User
-import com.example.rettrofitpractick.domain.useCase.AuthUseCase
+import com.example.rettrofitpractick.domain.useCase.LoginUseCase.AuthUseCase
 import kotlinx.coroutines.launch
 
 class LoginViewModel(

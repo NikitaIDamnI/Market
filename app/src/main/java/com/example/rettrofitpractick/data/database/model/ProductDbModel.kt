@@ -1,12 +1,12 @@
-package com.example.rettrofitpractick.data.database
+package com.example.rettrofitpractick.data.database.model
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 @Entity(tableName = "full_product_list")
+
 data class ProductDbModel(
-    @PrimaryKey
-    val id: Int,
+    @PrimaryKey val id: Int,
     val title: String,
     val description: String,
     val price: Int,
@@ -16,5 +16,11 @@ data class ProductDbModel(
     val brand: String,
     val category: String,
     val thumbnail: String,
-    val images: String
-)
+    val images: String,
+    val favorite: Boolean = NOT_DETERMINED
+) {
+    companion object{
+        const val NOT_DETERMINED = false
+    }
+}
+

@@ -1,6 +1,6 @@
 package com.example.rettrofitpractick.data.mappers
 
-import com.example.rettrofitpractick.data.database.UserDbModel
+import com.example.rettrofitpractick.data.database.model.UserDbModel
 import com.example.rettrofitpractick.data.network.model.UserDtoModel
 import com.example.rettrofitpractick.domain.model.User
 

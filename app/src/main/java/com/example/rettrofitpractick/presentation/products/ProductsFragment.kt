@@ -1,6 +1,7 @@
 package com.example.rettrofitpractick.presentation.products
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -51,7 +52,7 @@ class ProductsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         initAdapter()
         initCardUser()
-        initSearchView()
+        initSearchView( )
     }
 
     private fun initAdapter() {
@@ -62,7 +63,7 @@ class ProductsFragment : Fragment() {
     }
 
     private fun initCardUser() = with(binding) {
-        viewModel.user.observe(viewLifecycleOwner, Observer {
+        viewModel.user.observe(viewLifecycleOwner, Observer  {
             tvFirstname.text = it.firstName
             tvLastname.text = it.lastName
             Picasso.get().load(it.image).into(imUser)
@@ -76,10 +77,13 @@ class ProductsFragment : Fragment() {
             }
 
             override fun onQueryTextChange(newText: String?): Boolean {
+                /*
                 viewModel.searchProducts(newText?: "")
                 viewModel.searchList.observe(viewLifecycleOwner, Observer {
                     adapter.submitList(it)
                 })
+
+                 */
 
                 return true
             }
@@ -89,6 +93,7 @@ class ProductsFragment : Fragment() {
 
     private fun parseToken() {
         token = requireArguments().getString(TOKEN_KAY).toString()
+        Log.d("ProductsFragment","token| $token")
     }
 
 

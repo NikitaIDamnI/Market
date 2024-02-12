@@ -1,7 +1,7 @@
 package com.example.rettrofitpractick.data.mappers
 
 
-import com.example.rettrofitpractick.data.database.ProductDbModel
+import com.example.rettrofitpractick.data.database.model.ProductDbModel
 import com.example.rettrofitpractick.data.network.model.ProductDtoModel
 import com.example.rettrofitpractick.data.network.model.UserDtoModel
 import com.example.rettrofitpractick.domain.model.ProductModel
@@ -32,7 +32,7 @@ class ProductMapper {
         return list.joinToString(",")
     }
 
-    private fun stingToList(stringList: String): List<String> {
+     fun stingToList(stringList: String): List<String> {
         return stringList.split(",")
     }
 

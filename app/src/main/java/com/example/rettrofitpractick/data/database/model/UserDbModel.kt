@@ -1,12 +1,11 @@
-package com.example.rettrofitpractick.data.database
+package com.example.rettrofitpractick.data.database.model
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 @Entity(tableName = "users")
 data class UserDbModel(
-    @PrimaryKey(autoGenerate = true)
-    val id: Int ,
+    @PrimaryKey(autoGenerate = true) val id: Int,
     val username: String,
     val email: String,
     val firstName: String,
