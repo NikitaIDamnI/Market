@@ -22,6 +22,9 @@ interface ProductDao {
     suspend fun getProductCount(): Int
 
 
+    @Query("SELECT * FROM full_product_list WHERE title LIKE '%' || :query || '%'")
+    suspend fun searchProductsByTitle(query: String): List<ProductDbModel>
+
 
 
 }

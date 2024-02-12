@@ -1,12 +1,13 @@
 package com.example.rettrofitpractick.domain.useCase
 
+import androidx.lifecycle.LiveData
 import com.example.rettrofitpractick.domain.model.User
 import com.example.rettrofitpractick.domain.repository.LoginRepository
 
-class AddUserUseCase(
+data class GetUserByTokenUseCase (
     private val repository: LoginRepository
 ) {
-    suspend operator fun invoke(user: User) {
-        repository.addUser(user)
+     operator fun invoke(token:String): LiveData<User> {
+        return repository.getUserByToken(token)
     }
 }
