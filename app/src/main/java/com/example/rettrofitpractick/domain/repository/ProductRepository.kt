@@ -1,4 +1,4 @@
-package com.example.rettrofitpractick.domain
+package com.example.rettrofitpractick.domain.repository
 
 import androidx.lifecycle.LiveData
 import com.example.rettrofitpractick.domain.model.ProductModel

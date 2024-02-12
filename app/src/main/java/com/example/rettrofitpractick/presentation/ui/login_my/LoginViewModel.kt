@@ -4,7 +4,7 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.example.rettrofitpractick.data.repository.ProductRepositoryImpl
+import com.example.rettrofitpractick.data.repository.LoginRepositoryImpl
 import com.example.rettrofitpractick.domain.model.ResultAuth
 import com.example.rettrofitpractick.domain.model.User
 import com.example.rettrofitpractick.domain.useCase.AuthUseCase
@@ -14,7 +14,7 @@ class LoginViewModel(
     application: Application
 ) : AndroidViewModel(application) {
 
-    private val repository = ProductRepositoryImpl(application)
+    private val repository = LoginRepositoryImpl(application)
 
     private val authUseCase = AuthUseCase(repository)
 

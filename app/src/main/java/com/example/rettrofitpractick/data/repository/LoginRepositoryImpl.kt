@@ -1,7 +1,7 @@
 package com.example.rettrofitpractick.data.repository
 
 import android.app.Application
-import androidx.lifecycle.LiveData
+import android.util.Log
 import com.example.rettrofitpractick.data.database.AppDatabase
 import com.example.rettrofitpractick.data.mappers.UserMapper
 import com.example.rettrofitpractick.data.network.ApiFactory
@@ -17,24 +17,31 @@ class LoginRepositoryImpl(
 
     private val apiService = ApiFactory.apiService
     private val mapper = UserMapper()
-    private val userDao = AppDatabase.getInstance(application).productDao()
+    private val userDao = AppDatabase.getInstance(application).userDao()
 
 
     override suspend fun authLogin(username: String, password: String): ResultAuth<User> {
-
-        try {
-            val userDto = apiService.auth(
-                AuthRequestDtoModel(
-                    username,
-                    password
+        val userFromDatabase = userDao.getGetUser(username)
+        Log.d("LoginRepositoryImpl", "userFromDatabase| $userFromDatabase")
+        if (userFromDatabase != null) {
+            return ResultAuth.Success(mapper.mapDbUserToUser(userFromDatabase))
+        } else {
+            try {
+                userDao.getGetUser(username)
+                val userDto = apiService.auth(
+                    AuthRequestDtoModel(
+                        username,
+                        password
+                    )
                 )
-            )
-            val userDb = mapper.mapDtoUserToUserDbModel(userDto)
-            //userDao.authUserToDb(userDb)
-            val userModel = mapper.mapDtoUserToUserModel(userDto)
-            return ResultAuth.Success(userModel)
-        } catch (e: Exception) {
-            return  ResultAuth.Error(IOException("Error logging in", e))
+
+                val userDb = mapper.mapDtoUserToUserDbModel(userDto)
+                userDao.authUserToDb(userDb)
+                val userModel = mapper.mapDtoUserToUserModel(userDto)
+                return ResultAuth.Success(userModel)
+            } catch (e: Exception) {
+                return ResultAuth.Error(IOException("Error logging in", e))
+            }
         }
     }
 
@@ -42,7 +49,7 @@ class LoginRepositoryImpl(
         TODO("Not yet implemented")
     }
 
-    override fun getUser(username: String): LiveData<User> {
+    override suspend fun getUser(username: String): User {
         TODO("Not yet implemented")
     }
 }

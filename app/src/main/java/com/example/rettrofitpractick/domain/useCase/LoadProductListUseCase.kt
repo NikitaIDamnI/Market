@@ -1,6 +1,6 @@
 package com.example.rettrofitpractick.domain.useCase
 
-import com.example.rettrofitpractick.domain.ProductRepository
+import com.example.rettrofitpractick.domain.repository.ProductRepository
 
 
 class LoadProductListUseCase(

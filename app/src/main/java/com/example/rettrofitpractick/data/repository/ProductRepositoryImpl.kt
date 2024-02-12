@@ -8,10 +8,10 @@ import com.example.rettrofitpractick.data.database.AppDatabase
 import com.example.rettrofitpractick.data.mappers.ProductMapper
 import com.example.rettrofitpractick.data.network.ApiFactory
 import com.example.rettrofitpractick.data.network.model.AuthRequestDtoModel
-import com.example.rettrofitpractick.domain.ProductRepository
 import com.example.rettrofitpractick.domain.model.ProductModel
 import com.example.rettrofitpractick.domain.model.ResultAuth
 import com.example.rettrofitpractick.domain.model.User
+import com.example.rettrofitpractick.domain.repository.ProductRepository
 import java.io.IOException
 
 class ProductRepositoryImpl(
