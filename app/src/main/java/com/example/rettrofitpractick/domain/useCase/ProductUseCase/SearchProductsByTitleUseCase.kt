@@ -1,4 +1,4 @@
-package com.example.rettrofitpractick.domain.useCase
+package com.example.rettrofitpractick.domain.useCase.ProductUseCase
 
 import com.example.rettrofitpractick.domain.model.ProductModel
 import com.example.rettrofitpractick.domain.repository.ProductRepository

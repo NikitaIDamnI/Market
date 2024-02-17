@@ -1,4 +1,4 @@
-package com.example.rettrofitpractick.domain.useCase
+package com.example.rettrofitpractick.domain.useCase.LoginUseCase
 
 import com.example.rettrofitpractick.domain.model.User
 import com.example.rettrofitpractick.domain.repository.LoginRepository

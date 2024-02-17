@@ -1,16 +1,10 @@
 package com.example.rettrofitpractick.data.mappers
 
 
-import com.example.rettrofitpractick.data.database.ProductDbModel
+import com.example.rettrofitpractick.data.database.model.FavoriteProductDbModel
+import com.example.rettrofitpractick.data.database.model.ProductDbModel
 import com.example.rettrofitpractick.data.network.model.ProductDtoModel
-import com.example.rettrofitpractick.data.network.model.UserDtoModel
 import com.example.rettrofitpractick.domain.model.ProductModel
-import com.example.rettrofitpractick.domain.model.User
-import java.sql.Timestamp
-import java.text.SimpleDateFormat
-import java.util.Date
-import java.util.Locale
-import java.util.TimeZone
 
 class ProductMapper {
     fun mapDtoToDbModel(dto: ProductDtoModel) = ProductDbModel(
@@ -32,7 +26,7 @@ class ProductMapper {
         return list.joinToString(",")
     }
 
-    private fun stingToList(stringList: String): List<String> {
+    fun stingToList(stringList: String): List<String> {
         return stringList.split(",")
     }
 
@@ -58,26 +52,31 @@ class ProductMapper {
         dbModelList.map { mapDtoToDbModel(it) }
 
 
-    private fun convertTimestampToTime(timestamp: Long?): String {
-        if (timestamp == null) return ""
-        val stamp = Timestamp(timestamp * 1000)
-        val date = Date(stamp.time)
-        val pattern = "HH:mm:ss"
-        val sdf = SimpleDateFormat(pattern, Locale.getDefault())
-        sdf.timeZone = TimeZone.getDefault()
-        return sdf.format(date)
+    fun mapDbFavoriteProductToUserModel(mapProduct: Map<ProductDbModel, FavoriteProductDbModel>): List<ProductModel> {
+        val favoriteList = mapProduct.map { entities ->
+            val product = entities.key
+            val favorite = entities.value
+            val favoriteStatus = if(favorite == null){
+                false
+            }else{
+                favorite.isFavorite
+            }
+            ProductModel(
+                id = product.id,
+                title = product.title,
+                description = product.description,
+                price = product.price,
+                discountPercentage = product.discountPercentage,
+                rating = product.rating,
+                stock = product.stock,
+                brand = product.brand,
+                category = product.category,
+                thumbnail = product.thumbnail,
+                images = stingToList(product.images),
+                favorite = favoriteStatus
+            )
+        }
+        return favoriteList
+
     }
-
-    fun mapDtoUserToDbModelUser(dto: UserDtoModel) = User(
-        id = dto.id,
-        username = dto.username,
-        email = dto.email,
-        firstName = dto.firstName,
-        lastName = dto.lastName,
-        gender = dto.gender,
-        image = dto.image,
-        token = dto.token
-
-    )
-
 }

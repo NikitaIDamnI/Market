@@ -11,7 +11,7 @@ import com.example.rettrofitpractick.domain.model.ProductModel
 import com.example.rettrofitpractick.domain.repository.ProductRepository
 
 class ProductRepositoryImpl(
-    val application: Application
+    private val application: Application
 ) : ProductRepository {
 
     private val productDao = AppDatabase.getInstance(application).productDao()
@@ -20,44 +20,47 @@ class ProductRepositoryImpl(
 
     override fun getProductList(): LiveData<List<ProductModel>> {
         Log.d("ProductRepositoryImpl", "getProductList()")
-
         return productDao.getProductList().map { mapper.mapDbModelListToEntityList(it) }
     }
 
-    override fun getProductInfo(id: Int): LiveData<ProductModel> {
-        Log.d("ProductRepositoryImpl", "getProductInfo() ")
 
-        return productDao.getProductInfo(id).map { mapper.mapDbModelToEntity(it) }
+    override fun getProductListByFavorite(userId: Int): LiveData<List<ProductModel>> {
+
+        return productDao.getProductByUserFavorite(userId).map {
+            Log.d("ProductRepositoryImpl", "$it")
+
+            mapper.mapDbFavoriteProductToUserModel(it)
+        }
     }
 
-    override suspend fun loadData() {
-        val productCount = productDao.getProductCount()
-        Log.d("ProductRepositoryImpl", "productCount| $productCount ")
-        if (productCount == 0) {
-            try {
-                val listFromNetwork = apiService.getProducts()
-                Log.d(
-                    "ProductRepositoryImpl",
-                    "listFromNetwork | ${listFromNetwork.productModels.toString()}"
-                )
-                val listDb =
-                    listFromNetwork.productModels?.let { mapper.mapDtoListToDbList(it) }
-                Log.d(
-                    "ProductRepositoryImpl",
-                    "listDb | ${listDb.toString()}"
-                )
-                productDao.insertProductList(listDb!!)
-            } catch (e: Exception) {
-                Log.d("ProductRepositoryImpl", "loadData | e: Exception ")
+        override fun getProductInfo(id: Int): LiveData<ProductModel> {
+            Log.d("ProductRepositoryImpl", "getProductInfo() ")
+
+            return productDao.getProductInfo(id).map { mapper.mapDbModelToEntity(it) }
+        }
+
+        override suspend fun loadData() {
+            val productCount = productDao.getProductCount()
+            Log.d("ProductRepositoryImpl", "productCount| $productCount ")
+            if (productCount == 0) {
+                try {
+                    val listFromNetwork = apiService.getProducts()
+
+                    val listDb =
+                        listFromNetwork.productModels?.let { mapper.mapDtoListToDbList(it) }
+
+                    productDao.insertProductList(listDb!!)
+                } catch (e: Exception) {
+                    Log.d("ProductRepositoryImpl", "loadData | e: Exception ")
+                }
+
             }
 
         }
 
+        override suspend fun searchProductsByTitle(query: String): List<ProductModel> {
+            return mapper.mapDbModelListToEntityList(productDao.searchProductsByTitle(query))
+        }
+
+
     }
-
-    override suspend fun searchProductsByTitle(query: String): List<ProductModel> {
-        return mapper.mapDbModelListToEntityList( productDao.searchProductsByTitle(query))
-    }
-
-
-}

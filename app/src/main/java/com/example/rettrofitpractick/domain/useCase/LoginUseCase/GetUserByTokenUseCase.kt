@@ -1,4 +1,4 @@
-package com.example.rettrofitpractick.domain.useCase
+package com.example.rettrofitpractick.domain.useCase.LoginUseCase
 
 import androidx.lifecycle.LiveData
 import com.example.rettrofitpractick.domain.model.User

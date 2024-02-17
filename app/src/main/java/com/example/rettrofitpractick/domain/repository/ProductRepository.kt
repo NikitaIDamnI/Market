@@ -12,5 +12,9 @@ interface ProductRepository {
 
     suspend fun loadData()
     suspend fun searchProductsByTitle(query: String): List<ProductModel>
+    fun getProductListByFavorite(userId : Int): LiveData<List<ProductModel>>
+
+
+
 
 }
