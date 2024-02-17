@@ -42,30 +42,27 @@ class LoginFragment : Fragment() {
 
         binding.bLogin.setOnClickListener() {
 
-                val username = binding.username.text.toString()
-                val password = binding.password.text.toString()
-                viewModel.auth(username, password)
+            val username = binding.username.text.toString()
+            val password = binding.password.text.toString()
+            viewModel.auth(username, password)
 
-                viewModel.loginStatus.observe(viewLifecycleOwner, Observer {
-                    if (it.authorizationStatus){
-                        requireActivity().supportFragmentManager.beginTransaction()
-                           .replace(R.id.container_activity,ProductsFragment.newInstance(it.token))
-                           .addToBackStack(null)
-                           .commit()
-                    }
-                })
+            viewModel.loginStatus.observe(viewLifecycleOwner, Observer {
+                if (it.authorizationStatus || it.user != null) {
+                    requireActivity().supportFragmentManager.beginTransaction()
+                        .replace(R.id.container_activity, ProductsFragment.newInstance(user = it.user!!))
+                        .addToBackStack(null)
+                        .commit()
+                }
+            })
 
-            viewModel.loadData.observe(viewLifecycleOwner, Observer {loadData->
-                if(loadData){
+            viewModel.loadData.observe(viewLifecycleOwner, Observer { loadData ->
+                if (loadData) {
                     binding.loading.visibility = View.VISIBLE
-                }else{
+                } else {
                     binding.loading.visibility = View.GONE
 
                 }
             })
-
-
-
 
 
         }

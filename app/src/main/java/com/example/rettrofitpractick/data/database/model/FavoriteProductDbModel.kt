@@ -30,10 +30,5 @@ import kotlinx.parcelize.Parcelize
 data class FavoriteProductDbModel(
     @ColumnInfo("user_id") val idUser: Int,
     @ColumnInfo("product_id") val idProduct: Int,
-    @ColumnInfo("is_favorite") val isFavorite: Boolean = NOT_DETERMINED
-) : Parcelable {
-    companion object {
-
-        const val NOT_DETERMINED = false
-    }
-}
+    @ColumnInfo("is_favorite") val isFavorite:Boolean
+) : Parcelable

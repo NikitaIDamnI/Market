@@ -11,7 +11,7 @@ import com.example.rettrofitpractick.domain.model.ProductModel
 import com.example.rettrofitpractick.domain.repository.ProductRepository
 
 class ProductRepositoryImpl(
-   private val application: Application
+    private val application: Application
 ) : ProductRepository {
 
     private val productDao = AppDatabase.getInstance(application).productDao()
@@ -20,60 +20,47 @@ class ProductRepositoryImpl(
 
     override fun getProductList(): LiveData<List<ProductModel>> {
         Log.d("ProductRepositoryImpl", "getProductList()")
-
         return productDao.getProductList().map { mapper.mapDbModelListToEntityList(it) }
     }
 
-    /*
-    override fun getProductListByFavorite(userId:Int): LiveData<List<ProductByFavorite>> {
-        Log.d("ProductRepositoryImpl", "getProductList()")
 
-        val favoriteList = productDao.getProductByUserFavorite(userId).map {entities->
-            entities.map {
-                val product = it.key
-                val favorite = it.value
-                ProductByFavorite(
-                    id = product.id,
-                    title =  product.title,
-                    price = product.price,
-                    images = mapper.stingToList(product.images),
-                    favorite = favorite.isFavorite
-                )
-            }
+    override fun getProductListByFavorite(userId: Int): LiveData<List<ProductModel>> {
 
+        return productDao.getProductByUserFavorite(userId).map {
+            Log.d("ProductRepositoryImpl", "$it")
+
+            mapper.mapDbFavoriteProductToUserModel(it)
         }
-        return favoriteList
     }
 
-     */
-    override fun getProductInfo(id: Int): LiveData<ProductModel> {
-        Log.d("ProductRepositoryImpl", "getProductInfo() ")
+        override fun getProductInfo(id: Int): LiveData<ProductModel> {
+            Log.d("ProductRepositoryImpl", "getProductInfo() ")
 
-        return productDao.getProductInfo(id).map { mapper.mapDbModelToEntity(it) }
-    }
+            return productDao.getProductInfo(id).map { mapper.mapDbModelToEntity(it) }
+        }
 
-    override suspend fun loadData() {
-        val productCount = productDao.getProductCount()
-        Log.d("ProductRepositoryImpl", "productCount| $productCount ")
-        if (productCount == 0) {
-            try {
-                val listFromNetwork = apiService.getProducts()
+        override suspend fun loadData() {
+            val productCount = productDao.getProductCount()
+            Log.d("ProductRepositoryImpl", "productCount| $productCount ")
+            if (productCount == 0) {
+                try {
+                    val listFromNetwork = apiService.getProducts()
 
-                val listDb =
-                    listFromNetwork.productModels?.let { mapper.mapDtoListToDbList(it) }
+                    val listDb =
+                        listFromNetwork.productModels?.let { mapper.mapDtoListToDbList(it) }
 
-                productDao.insertProductList(listDb!!)
-            } catch (e: Exception) {
-                Log.d("ProductRepositoryImpl", "loadData | e: Exception ")
+                    productDao.insertProductList(listDb!!)
+                } catch (e: Exception) {
+                    Log.d("ProductRepositoryImpl", "loadData | e: Exception ")
+                }
+
             }
 
         }
 
+        override suspend fun searchProductsByTitle(query: String): List<ProductModel> {
+            return mapper.mapDbModelListToEntityList(productDao.searchProductsByTitle(query))
+        }
+
+
     }
-
-    override suspend fun searchProductsByTitle(query: String): List<ProductModel> {
-        return mapper.mapDbModelListToEntityList( productDao.searchProductsByTitle(query))
-    }
-
-
-}

@@ -7,9 +7,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.example.rettrofitpractick.databinding.FragmentProductBinding
+import com.example.rettrofitpractick.domain.model.User
 import com.example.rettrofitpractick.presentation.rv.ProductAdapter
 import com.squareup.picasso.Picasso
 
@@ -19,10 +19,10 @@ class ProductsFragment : Fragment() {
     private val binding: FragmentProductBinding
         get() = _binding ?: throw RuntimeException("FragmentProductBinding == null")
 
-    private lateinit var token: String
+    private lateinit var user: User
 
     private val viewModelFactory by lazy{
-        ProductVMFactory(requireActivity().application,token)
+        ProductVMFactory(requireActivity().application,user)
     }
 
 
@@ -63,11 +63,9 @@ class ProductsFragment : Fragment() {
     }
 
     private fun initCardUser() = with(binding) {
-        viewModel.user.observe(viewLifecycleOwner, Observer  {
-            tvFirstname.text = it.firstName
-            tvLastname.text = it.lastName
-            Picasso.get().load(it.image).into(imUser)
-        })
+            tvFirstname.text = user.firstName
+            tvLastname.text = user.lastName
+            Picasso.get().load(user.image).into(imUser)
     }
 
     private fun initSearchView(){
@@ -92,20 +90,19 @@ class ProductsFragment : Fragment() {
     }
 
     private fun parseToken() {
-        token = requireArguments().getString(TOKEN_KAY).toString()
-        Log.d("ProductsFragment","token| $token")
+        user = requireArguments().getParcelable<User>(USER_KAY)!!
+        Log.d("ProductsFragment","token| $user")
     }
 
 
     companion object {
-        fun newInstance(token: String): ProductsFragment {
+        fun newInstance(user: User): ProductsFragment {
             return ProductsFragment().apply {
                 arguments = Bundle().apply {
-                    putString(TOKEN_KAY, token)
+                    putParcelable(USER_KAY, user)
                 }
             }
         }
-
-        private const val TOKEN_KAY = "token_key"
+        private const val USER_KAY = "user_key"
     }
 }

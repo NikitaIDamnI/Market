@@ -29,11 +29,10 @@ class LoginViewModel(
         loadData.value = true
         viewModelScope.launch {
             val result = authUseCase(username, password)
-
             if (result is ResultAuth.Success){
                     user.value = result.data
                 loadData.value = false
-                loginStatus.value = LoginStatus(authorizationStatus = true, token = result.data.token)
+                loginStatus.value = LoginStatus(authorizationStatus = true, user = result.data)
             }
             if(result is ResultAuth.Error){
                     loginStatus.value = LoginStatus(error = result.exception.toString())

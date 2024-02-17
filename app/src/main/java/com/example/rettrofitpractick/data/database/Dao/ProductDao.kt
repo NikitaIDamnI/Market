@@ -30,7 +30,6 @@ interface ProductDao {
     @Query("SELECT * FROM full_product_list LEFT JOIN favorite_products " +
             "ON full_product_list.id = favorite_products.product_id " +
         "AND favorite_products.user_id = :userId"
-
     )
     fun getProductByUserFavorite(userId: Int): LiveData<Map<ProductDbModel, FavoriteProductDbModel>>
 
