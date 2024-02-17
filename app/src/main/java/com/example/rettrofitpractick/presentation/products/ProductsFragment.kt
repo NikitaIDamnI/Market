@@ -1,12 +1,12 @@
 package com.example.rettrofitpractick.presentation.products
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.example.rettrofitpractick.databinding.FragmentProductBinding
 import com.example.rettrofitpractick.domain.model.User
@@ -53,6 +53,17 @@ class ProductsFragment : Fragment() {
         initAdapter()
         initCardUser()
         initSearchView( )
+        likeProduct()
+    }
+
+
+    private fun likeProduct(){
+        adapter.onCheckBoxClickListener = object :ProductAdapter.OnCheckBoxClickListener{
+            override fun onCheckBoxClick(productId: Int, favoriteStatus: Boolean) {
+               viewModel.likeToFavoriteProduct(productId,favoriteStatus)
+            }
+
+        }
     }
 
     private fun initAdapter() {
@@ -75,14 +86,11 @@ class ProductsFragment : Fragment() {
             }
 
             override fun onQueryTextChange(newText: String?): Boolean {
-                /*
+
                 viewModel.searchProducts(newText?: "")
                 viewModel.searchList.observe(viewLifecycleOwner, Observer {
                     adapter.submitList(it)
                 })
-
-                 */
-
                 return true
             }
 
@@ -91,7 +99,6 @@ class ProductsFragment : Fragment() {
 
     private fun parseToken() {
         user = requireArguments().getParcelable<User>(USER_KAY)!!
-        Log.d("ProductsFragment","token| $user")
     }
 
 

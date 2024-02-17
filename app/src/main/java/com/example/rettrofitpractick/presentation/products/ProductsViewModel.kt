@@ -9,9 +9,9 @@ import com.example.rettrofitpractick.data.repository.ProductRepositoryImpl
 import com.example.rettrofitpractick.domain.model.ProductModel
 import com.example.rettrofitpractick.domain.model.User
 import com.example.rettrofitpractick.domain.useCase.FavoriteProductUseCase.AddFavoriteProductUseCase
+import com.example.rettrofitpractick.domain.useCase.FavoriteProductUseCase.DeleteFavoriteProductUseCase
 import com.example.rettrofitpractick.domain.useCase.ProductUseCase.GetProductInfoUseCase
 import com.example.rettrofitpractick.domain.useCase.ProductUseCase.GetProductListByFavorite
-import com.example.rettrofitpractick.domain.useCase.ProductUseCase.GetProductListUseCase
 import com.example.rettrofitpractick.domain.useCase.ProductUseCase.LoadProductListUseCase
 import com.example.rettrofitpractick.domain.useCase.ProductUseCase.SearchProductsByTitleUseCase
 import kotlinx.coroutines.launch
@@ -24,12 +24,13 @@ class ProductsViewModel(
     private val repository = ProductRepositoryImpl(application)
     private val repositoryFavorite = FavoriteProductRepositoryImpl(application)
 
-    private val getListProduct = GetProductListUseCase(repository)
     private val getListProductByFavorite = GetProductListByFavorite(repository)
     private val infoProduct = GetProductInfoUseCase(repository)
     private val loadList = LoadProductListUseCase(repository)
     private val search = SearchProductsByTitleUseCase(repository)
+
     private val addFavorite = AddFavoriteProductUseCase(repositoryFavorite)
+    private val deleteFavorite = DeleteFavoriteProductUseCase(repositoryFavorite)
 
 
     init {
@@ -49,13 +50,21 @@ class ProductsViewModel(
     }
 
     fun likeToFavoriteProduct(idProduct: Int, favoriteStatus: Boolean) {
-        viewModelScope.launch {
-            addFavorite(
-                userId = user.id,
-                productId = idProduct,
-                favoriteStatus = favoriteStatus
-            )
-        }
+
+            viewModelScope.launch {
+                if (favoriteStatus) {
+                addFavorite(
+                    userId = user.id,
+                    productId = idProduct,
+                    favoriteStatus = favoriteStatus
+                )
+                } else {
+                    deleteFavorite(
+                        userId = user.id,
+                        productId = idProduct,
+                    )
+                }
+            }
     }
 
     fun searchProducts(query: String) {

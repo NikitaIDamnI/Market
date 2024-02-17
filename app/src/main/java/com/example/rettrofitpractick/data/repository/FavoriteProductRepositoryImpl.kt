@@ -18,5 +18,13 @@ class FavoriteProductRepositoryImpl(
         ))
     }
 
+    override suspend fun deleteFavoriteProduct(userId: Int, productId: Int) {
+        favoriteProductDao.deleteFavoriteProduct(
+            FavoriteProductDbModel(
+                idUser = userId,
+                idProduct = productId
+            ))
+    }
+
 
 }
