@@ -25,6 +25,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="5dp"
+            android:layout_marginTop="10dp"
             android:layout_marginEnd="5dp"
             android:gravity="center"
             android:orientation="vertical"
@@ -35,8 +36,8 @@
             <TextView
                 android:id="@+id/textView2"
                 android:layout_width="match_parent"
-                android:textSize="15sp"
                 android:layout_height="wrap_content"
+                android:textSize="15sp"
                 tools:text="Iphone 9" />
 
             <TextView
@@ -51,13 +52,13 @@
             android:id="@+id/checkBox"
             android:layout_width="30dp"
             android:layout_height="30dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="10dp"
             android:button="@drawable/checkbox_selector"
-            android:theme="@style/MyCheckBox"
             android:checked="false"
-            android:layout_marginEnd="16dp"
-            android:layout_marginBottom="6dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
+            android:theme="@style/MyCheckBox"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

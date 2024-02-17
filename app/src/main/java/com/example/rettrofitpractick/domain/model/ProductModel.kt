@@ -1,9 +1,13 @@
 package com.example.rettrofitpractick.domain.model
 
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
+
+@Parcelize
 data class ProductModel(
     val id: Int,
-    val title: String,
-    val description: String,
+    val title: String, // название
+    val description: String, //описание
     val price: Int,
     val discountPercentage: Float,
     val rating: Float,
@@ -13,7 +17,7 @@ data class ProductModel(
     val thumbnail: String,
     val images: List<String>,
     val favorite: Boolean = NOT_DETERMINED
-) {
+) : Parcelable {
     companion object {
 
         const val NOT_DETERMINED = false
